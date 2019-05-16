@@ -17,3 +17,20 @@ phpunit.xml
 
 /usr/local/software/MFFC/vendor/bin/phpunit -c /data/test/phpunit.xml --coverage-html coverage
 可以通过该代码来生成代码覆盖度报告,理想情况下是百分百，然而并不现实，也不是我们追求的目标，多少覆盖度算好呢，每个人心中都有个标准，不同项目也有不同的要求，我们可以把它作为一个参考，但是不要一味的追求更高的代码覆盖度
+
+
+
+
+
+由于很多的PHP开发者可能会忘记编写测试，因此要自动测试，可以使用Travis CI(http://travis-ci.org/)，因为这个服务原生提供了钩子，可以集成GitHub仓库，每次把代码推送到GitHub上，都能在Travis CI中运行应用的测试，而且还能在多个PHP版本中运行测试
+
+
+创建一个叫做.travis.yml的文件夹
+language
+    这是应用使用的语言。这里我们设为php 这个设置的值区分大小写！
+php
+    Travis CI可以在多个PHP版本中运行应用测试。我们一定要在应用中支持所有PHP版本中测试
+install
+    这是Travis CI运行应用测试之前执行的bash命令我们使用这个设置让Travis CI安装项目的Composer依赖。我们要使用--no-dev选项，不让Composer安装不必要的开发依赖
+script
+    这是Travis CI用来运行应用测试的bash命令。这个设置的默认值是phpunit。我们可以通过这个设置Travis CI默认使用的命令，这个设置告诉Travis CI使用我们自定义的PHPUnit配置文件，还要生成纯文本格式的覆盖度报告

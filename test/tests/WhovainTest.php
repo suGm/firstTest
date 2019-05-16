@@ -44,7 +44,7 @@ class WhovianTest extends TestCase
     {
         $whovian = new Whovian('David Tennat');
 
-        $option = 'No Way. Matt Smith was awesome!';
+        $option = 'No Way. Mating Smith was awesome!';
         $whovian->respondTo($option);
     }
 }

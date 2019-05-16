@@ -1,0 +1,19 @@
+这是一个PHP项目的目录结构 用于测试示例
+
+/src
+    这个目录保存PHP项目的源码(即各个PHP类)
+/tests
+    这个目录保存的是PHP项目的PHPUnit测试。这个目录中有个bootstrap.php文件，PHPUnit运行单元测试之前要引入这个文件
+comnposer.json
+    这个文件用于列出使用Composer管理的PHP项目的依赖，其中包含PHPUnit测试框架
+phpunit.xml
+    这个文件用于配置PHPUnit的测试运行程序
+.travis.yml
+    这个文件用于持续测试Web服务Travis CI
+
+通过配置phpunit.xml文件指定bootstrap.php文件的路径，phpunit测试运行程序在运行测试之前会引入这个文件。我们要在这个bootstrap.php文件中自动加载应用中使用Composer管理的依赖，以便在PHPUnit测试中使用。我们还要在bootstrap.php文件中指定测试组件的路径(即保存相关测试用例的目录)，phpunit会运行这个目录中所有文件名以Test.php为结尾的PHP文件。最后在这个配置文件的<filter>元素中列出代码覆盖度分析涵盖的目录。<whitelist>元素的作用是告诉phpunit只分析src/目录中代码的覆盖度。
+
+我们把一系列相关的测试叫测试组件，tests目录中的所有测试都属于同一个测试组件，这个目录中每个文件里的类时一个测试用例，类中每个以test开头的方法是单独测试，每个测试都使用断言验证指定的条件，断言可能会通过，也可能会失败（PHPUnit的网站中http://bit.ly/php-unit 列出了一些断言。有些断言没有文档，我们可以再github中查看源码 http://bit.ly/phpu-gh ，找到所有断言）
+
+/usr/local/software/MFFC/vendor/bin/phpunit -c /data/test/phpunit.xml --coverage-html coverage
+可以通过该代码来生成代码覆盖度报告,理想情况下是百分百，然而并不现实，也不是我们追求的目标，多少覆盖度算好呢，每个人心中都有个标准，不同项目也有不同的要求，我们可以把它作为一个参考，但是不要一味的追求更高的代码覆盖度

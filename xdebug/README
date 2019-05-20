@@ -1,0 +1,62 @@
+这是一个对php分析器的学习
+
+1、什么时候使用分析器？
+在性能问题不是很明显的情况下使用分析器
+
+
+
+
+
+我们可以使用基准测试工具，例如Apach Bench(http://bit.ly/apache-bench) 和Siege(http://www.joedog.org/siege-home)，找出性能问题。基准测试工具的作用是从外部测试应用的性能，就像是用户在WEB浏览器中访问应用一样。基准测试工具可以设置同时有多少用户和多少请求访问应用中指定的URL。测试结束后，基准测试工具会告诉你应用每秒能承受多少请求（除此之外还有其他统计数据）。如果发现某个URL每秒能承受的请求书很少，可能表明性能有问题
+
+
+分析器分为两类
+1)、只能在开发环境中使用
+2)、能在生产环境中使用
+
+Xdebug(http://xdebug.org)是一个流行的PHP分析工具，这个分析器只应该在开发环境中使用，因为分析应用时，它会消耗大量资源，它的结果人类看不懂。所以需要其他解释器来解析并显示结果。KCacheGrind（http://kcachegrind.sourceforge.net/）和WinCacheGrind(http://sourceforge.net/projects/wincachegrind/)，这两个工具都能形象化Xdebug的分析结果
+
+XHProf(http://xhprof.io)也是一个流行的PHP分析器，由Facebook开发，这个工具在开发和生产环境都可以使用，他的结果人类也读不懂，不过有一套配套工具--XHGUI，可以形象化的分析结果
+
+注:Xdebug和XHProf都是PHP扩展，可以使用操作系统的包管理安装，也可以用PECL安装
+
+<-- XDEBUG
+
+配置php xdebug
+xdebug.profiler_enable = 0
+xdebug.profiler_enable_trigger = 1
+xdebug.profiler_output_dir = /path/to/profile/results
+
+
+xdebug.profiler_enable = 0
+    不让Xdebug自动运行，如果每次请求都自动运行Xdebug会极大地降低性能，还会阻碍开发
+xdebug.profiler_enable_trigger = 1
+    这么设置是为了在需要时启动Xdebug。我们可以再PHP应用中的任何一个URL中加上XDEBUG_PROFILE = 1查询参数，在单个请求中启动Xdebug。Xdebug检查到这个查询参数时，会分析当前请求，然后生成报告，保存在xdebug.profiler_output_dir中
+xdebug.profiler_output_dir = /path/to/profile/results
+    这是一个目录的路径，这个目录用于保存分析器生成的报告。如果是复杂的PHP应用，分析器生成的报告可能很大（例如，500MB可能更大）。
+
+
+
+触发运行
+因为我们把xdebug.profiler_enable的值设置为0，所以Xdebug不会自动运行。我们可以再PHP应用中的任何一个URL中加上XDEBUG_PROFILE=1查询参数来单独触发xdebug，例如http://xxx/users/show/1?XDEBUG_PROFILE=1
+
+
+
+分析
+Xdebug生成的结果是CacheGrind格式，因此我们要使用兼容CacheGrind的应用查看分析结果
+1)、在WINDOWS中运行WinCacheGrind(http://sourceforge.net/projects/wincachegrind/)
+2)、在LINUX中运行KCacheGrind(http://kcachegrind.sourceforge.net/)
+3)、在WEB浏览器中运行的WebGrind(http://code.google.com/p/webgrind/)
+
+MAC OS X用户执行下述命令，使用Homebrew安装KCacheGrind:
+
+    brew install qcachegrind
+
+XDEBUG -->
+
+进一步学习PHP分析器
+
+http://www.sitepoint.com/the-need-for-speed-profiling-with-xhprof-and-xhgui/
+https://blog.engineyard.com/2014/profiling-with-xhprof-xhgui-part-1
+https://blog.engineyard.com/2014/profiling-with-xhprof-xhgui-part-2
+https://blog.engineyard.com/2014/profiling-with-xhprof-xhgui-part-3

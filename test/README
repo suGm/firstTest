@@ -34,3 +34,16 @@ install
     这是Travis CI运行应用测试之前执行的bash命令我们使用这个设置让Travis CI安装项目的Composer依赖。我们要使用--no-dev选项，不让Composer安装不必要的开发依赖
 script
     这是Travis CI用来运行应用测试的bash命令。这个设置的默认值是phpunit。我们可以通过这个设置Travis CI默认使用的命令，这个设置告诉Travis CI使用我们自定义的PHPUnit配置文件，还要生成纯文本格式的覆盖度报告
+
+
+
+
+
+进一步学习PHP应用测试
+
+https://phpunit.de/
+http://www.phpspec.net/docs/introduction.html
+http://bthat.org/
+https://leanpub.com/grumpy-phpunit
+https://leanpub.com/grumpy-testing
+http://www.littlehart.net/atthekeyboard/
